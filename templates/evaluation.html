@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Model Evaluation | AI Loan Risk Analysis</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .evaluation-page {
+            max-width: 950px;
+            margin: 30px auto;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .intro p {
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .accuracy-card {
+            max-width: 300px;
+            margin: 0 auto 25px;
+            padding: 25px;
+            background: #e8f0fe;
+            border: 1px solid #c7d9fb;
+            border-radius: 14px;
+            text-align: center;
+        }
+
+        .accuracy-number {
+            font-size: 38px;
+            font-weight: bold;
+            color: #174ea6;
+            margin: 12px 0;
+        }
+
+        .panel {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+
+        .panel h2 {
+            color: #174ea6;
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        th {
+            background: #e8f0fe;
+            color: #174ea6;
+        }
+
+        .note {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .back-button {
+            display: block;
+            max-width: 300px;
+            margin: 25px auto;
+            padding: 14px;
+            background: #174ea6;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background: #123b7a;
+        }
+
+        @media (max-width: 600px) {
+            .panel {
+                padding: 15px;
+            }
+
+            th, td {
+                padding: 8px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="evaluation-page">
+
+        <div class="intro">
+            <h1>Model Evaluation</h1>
+            <p>
+                Performance results for the Random Forest
+                loan risk classification model.
+            </p>
+        </div>
+
+        <div class="accuracy-card">
+            <h3>Model Accuracy</h3>
+
+            <div class="accuracy-number">
+                {{ results.accuracy }}%
+            </div>
+
+            <p>Accuracy on the test dataset</p>
+        </div>
+
+        <div class="panel">
+            <h2>Precision, Recall and F1-Score</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Risk Category</th>
+                        <th>Precision</th>
+                        <th>Recall</th>
+                        <th>F1-Score</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for label in results.labels %}
+                    <tr>
+                        <td>{{ label }}</td>
+                        <td>
+                            {{ "%.2f"|format(results.report[label]["precision"]) }}
+                        </td>
+                        <td>
+                            {{ "%.2f"|format(results.report[label]["recall"]) }}
+                        </td>
+                        <td>
+                            {{ "%.2f"|format(results.report[label]["f1-score"]) }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <p class="note">
+                Precision measures how reliable a category's predictions are.
+                Recall measures how many actual records in that category
+                the model correctly identifies. F1-score combines both.
+            </p>
+        </div>
+
+        <div class="panel">
+            <h2>Confusion Matrix</h2>
+
+            <p class="note">
+                Rows show the actual categories. Columns show the predicted
+                categories. Correct predictions appear on the diagonal.
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Actual / Predicted</th>
+                        {% for label in results.labels %}
+                        <th>{{ label }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in results.matrix %}
+                    <tr>
+                        <th>{{ results.labels[loop.index0] }}</th>
+                        {% for value in row %}
+                        <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel">
+            <h2>Important Note</h2>
+
+            <p class="note">
+                This project uses a small sample dataset for educational
+                purposes. Evaluation scores may change significantly with
+                different training and testing records. These results do not
+                establish that the model is suitable for real lending
+                decisions.
+            </p>
+        </div>
+
+        <a href="/" class="back-button">
+            Back to Loan Prediction
+        </a>
+
+    </div>
+
+</body>
+</html>
