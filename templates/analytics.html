@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Loan Risk Analytics Dashboard</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .dashboard {
+            max-width: 950px;
+            margin: 30px auto;
+        }
+
+        .welcome {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .welcome p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .card h3 {
+            font-size: 15px;
+            color: #64748b;
+            margin-top: 0;
+        }
+
+        .number {
+            font-size: 30px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .low-text { color: #15803d; }
+        .medium-text { color: #b45309; }
+        .high-text { color: #b91c1c; }
+
+        .panel {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .panel h2 {
+            color: #174ea6;
+            margin-top: 0;
+        }
+
+        .risk-row {
+            margin: 20px 0;
+        }
+
+        .risk-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            gap: 10px;
+        }
+
+        .bar-background {
+            height: 14px;
+            background: #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .bar {
+            height: 100%;
+            border-radius: 20px;
+        }
+
+        .low-bar { background: #22c55e; }
+        .medium-bar { background: #f59e0b; }
+        .high-bar { background: #ef4444; }
+
+        .note {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .dashboard-button {
+            display: block;
+            max-width: 300px;
+            margin: 25px auto;
+            padding: 14px;
+            background: #174ea6;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .dashboard-button:hover {
+            background: #123b7a;
+        }
+
+        @media (max-width: 600px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .panel {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <div class="welcome">
+            <h1>Loan Risk Analytics Dashboard</h1>
+            <p>
+                Explore the risk categories in the sample loan dataset
+                used for this machine-learning project.
+            </p>
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Total Sample Records</h3>
+                <div class="number">{{ total }}</div>
+            </div>
+
+            <div class="card">
+                <h3>Low Risk Records</h3>
+                <div class="number low-text">{{ low }}</div>
+            </div>
+
+            <div class="card">
+                <h3>Medium Risk Records</h3>
+                <div class="number medium-text">{{ medium }}</div>
+            </div>
+
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>High Risk Records</h3>
+                <div class="number high-text">{{ high }}</div>
+            </div>
+
+            <div class="card">
+                <h3>Dataset</h3>
+                <div class="number" style="font-size: 20px;">Loan Data</div>
+                <p class="note">Sample training data</p>
+            </div>
+
+            <div class="card">
+                <h3>Model</h3>
+                <div class="number" style="font-size: 20px;">Random Forest</div>
+                <p class="note">Classification algorithm</p>
+            </div>
+
+        </div>
+
+        <div class="panel">
+            <h2>Risk Category Distribution</h2>
+
+            <div class="risk-row">
+                <div class="risk-label">
+                    <strong>Low Risk</strong>
+                    <span>{{ low }} records</span>
+                </div>
+                <div class="bar-background">
+                    <div class="bar low-bar"
+                         style="width: {{ (low / total * 100) if total else 0 }}%;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="risk-row">
+                <div class="risk-label">
+                    <strong>Medium Risk</strong>
+                    <span>{{ medium }} records</span>
+                </div>
+                <div class="bar-background">
+                    <div class="bar medium-bar"
+                         style="width: {{ (medium / total * 100) if total else 0 }}%;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="risk-row">
+                <div class="risk-label">
+                    <strong>High Risk</strong>
+                    <span>{{ high }} records</span>
+                </div>
+                <div class="bar-background">
+                    <div class="bar high-bar"
+                         style="width: {{ (high / total * 100) if total else 0 }}%;">
+                    </div>
+                </div>
+            </div>
+
+            <p class="note">
+                These counts come from the sample dataset, not from all
+                loan applications or real bank customers.
+            </p>
+        </div>
+
+        <a href="/" class="dashboard-button">
+            Back to Loan Prediction
+        </a>
+
+        <p class="note" style="text-align: center;">
+            Educational project demonstration only.
+        </p>
+
+    </div>
+
+</body>
+</html>
