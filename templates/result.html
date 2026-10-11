@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Loan Risk Analysis | AI Prediction</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .result-card {
+            max-width: 520px;
+            margin: 30px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .risk {
+            padding: 18px;
+            margin: 20px 0;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .low {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+
+        .medium {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+
+        .high {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .section-title {
+            color: #174ea6;
+            margin-top: 28px;
+            margin-bottom: 15px;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .detail-box {
+            background: #f1f5f9;
+            padding: 14px;
+            border-radius: 9px;
+            overflow-wrap: anywhere;
+        }
+
+        .detail-label {
+            display: block;
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .detail-value {
+            color: #1e293b;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .message {
+            line-height: 1.7;
+            color: #475569;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-button {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px;
+            margin-top: 25px;
+            background: #174ea6;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background: #123b7a;
+        }
+
+        .disclaimer {
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 450px) {
+            .result-card {
+                padding: 20px;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>AI Loan Risk Analysis</h1>
+
+    <p class="subtitle">
+        Your loan application risk assessment
+    </p>
+
+    <div class="result-card">
+
+        <h2 style="text-align: center;">Prediction Summary</h2>
+
+        <p style="text-align: center; color: #64748b;">
+            Your predicted risk category is
+        </p>
+
+        <div class="risk
+            {% if risk == 'Low' %}low
+            {% elif risk == 'Medium' %}medium
+            {% else %}high
+            {% endif %}">
+
+            {% if risk == 'Low' %}
+                LOW RISK
+            {% elif risk == 'Medium' %}
+                MEDIUM RISK
+            {% else %}
+                HIGH RISK
+            {% endif %}
+
+        </div>
+
+        {% if risk == 'Low' %}
+            <p class="message">
+                The model identifies this application as having
+                a low risk based on the details provided.
+            </p>
+        {% elif risk == 'Medium' %}
+            <p class="message">
+                The model identifies this application as having
+                a medium risk. Further review may be appropriate.
+            </p>
+        {% else %}
+            <p class="message">
+                The model identifies this application as having
+                a high risk based on the details provided.
+            </p>
+        {% endif %}
+
+        <h3 class="section-title">Application Details</h3>
+
+        <div class="details">
+
+            <div class="detail-box">
+                <span class="detail-label">Annual Income</span>
+                <span class="detail-value">₹{{ "{:,.0f}".format(income) }}</span>
+            </div>
+
+            <div class="detail-box">
+                <span class="detail-label">Credit Score</span>
+                <span class="detail-value">{{ credit_score|int }}</span>
+            </div>
+
+            <div class="detail-box">
+                <span class="detail-label">Loan Amount</span>
+                <span class="detail-value">₹{{ "{:,.0f}".format(loan_amount) }}</span>
+            </div>
+
+            <div class="detail-box">
+                <span class="detail-label">Previous Default</span>
+                <span class="detail-value">{{ previous_default }}</span>
+            </div>
+
+            <div class="detail-box">
+                <span class="detail-label">Loan Term</span>
+                <span class="detail-value">{{ loan_term|int }} months</span>
+            </div>
+
+            <div class="detail-box">
+                <span class="detail-label">Applicant Age</span>
+                <span class="detail-value">{{ age|int }} years</span>
+            </div>
+
+        </div>
+
+        <a href="/" class="back-button">Check Another Application</a>
+
+        <p class="disclaimer">
+            Educational project demonstration only.
+            This prediction is not a real loan approval or rejection
+            and should not be used as the sole basis for lending decisions.
+        </p>
+
+    </div>
+
+    <footer>
+        AI-Based Loan Default Prediction and Risk Analysis
+    </footer>
+
+</body>
+</html>
