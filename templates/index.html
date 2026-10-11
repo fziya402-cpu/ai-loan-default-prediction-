@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Loan Risk Analysis</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .hero {
+            text-align: center;
+            max-width: 750px;
+            margin: 0 auto 30px;
+        }
+
+        .hero-icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        .hero h1 {
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .info-card {
+            max-width: 450px;
+            margin: 0 auto 25px;
+            padding: 20px 25px;
+            background: #e8f0fe;
+            border: 1px solid #c7d9fb;
+            border-radius: 12px;
+            box-sizing: border-box;
+        }
+
+        .info-card h3 {
+            color: #174ea6;
+            margin-top: 0;
+        }
+
+        .info-card p {
+            color: #334155;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        .form-title {
+            color: #174ea6;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .form-description {
+            color: #64748b;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .dashboard-link {
+            display: block;
+            max-width: 450px;
+            box-sizing: border-box;
+            margin: 0 auto 15px;
+            padding: 14px;
+            background: white;
+            color: #174ea6;
+            border: 2px solid #174ea6;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .dashboard-link:hover {
+            background: #e8f0fe;
+        }
+
+        .privacy-note {
+            text-align: center;
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.6;
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hero">
+        <div class="hero-icon">🏦</div>
+
+        <h1>AI-Based Loan Default Prediction and Risk Analysis</h1>
+
+        <p>
+            Welcome to the AI Loan Risk Assessment System.
+            Enter the applicant's details below to estimate
+            the loan risk category using a machine learning model.
+        </p>
+    </div>
+
+    <div class="info-card">
+        <h3>How It Works</h3>
+
+        <p>
+            Enter the applicant's income, credit score, loan details,
+            previous default history, loan term, and age.
+            The model estimates whether the application has
+            Low, Medium, or High Risk.
+        </p>
+    </div>
+
+    <!-- Analytics Dashboard Button -->
+    <a href="/analytics" class="dashboard-link">
+        📊 View Analytics Dashboard
+    </a>
+
+    <!-- Model Evaluation Button -->
+    <a href="/evaluation" class="dashboard-link">
+        📈 View Model Evaluation
+    </a>
+
+    <!-- Loan Application Form -->
+    <form action="/predict" method="POST">
+
+        <h2 class="form-title">Applicant Information</h2>
+
+        <p class="form-description">
+            Please enter the details accurately.
+        </p>
+
+        <label for="income">Annual Income (₹):</label>
+        <input
+            type="number"
+            id="income"
+            name="income"
+            min="1"
+            placeholder="Example: 55000"
+            required
+        >
+
+        <label for="credit_score">Credit Score:</label>
+        <input
+            type="number"
+            id="credit_score"
+            name="credit_score"
+            min="1"
+            max="900"
+            placeholder="Example: 760"
+            required
+        >
+
+        <label for="loan_amount">Loan Amount (₹):</label>
+        <input
+            type="number"
+            id="loan_amount"
+            name="loan_amount"
+            min="1"
+            placeholder="Example: 170000"
+            required
+        >
+
+        <label for="previous_default">Previous Loan Default:</label>
+        <select id="previous_default" name="previous_default" required>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+        </select>
+
+        <label for="loan_term">Loan Term (Months):</label>
+        <input
+            type="number"
+            id="loan_term"
+            name="loan_term"
+            min="1"
+            placeholder="Example: 36"
+            required
+        >
+
+        <label for="age">Applicant Age:</label>
+        <input
+            type="number"
+            id="age"
+            name="age"
+            min="18"
+            max="100"
+            placeholder="Enter age"
+            required
+        >
+
+        <button type="submit">Predict Risk →</button>
+
+        <p class="privacy-note">
+            Educational project demonstration.
+            Please do not enter real customers' confidential information.
+            Predictions are estimates, not actual loan approval decisions.
+        </p>
+
+    </form>
+
+    <footer>
+        AI Loan Risk Analysis | Machine Learning Project
+    </footer>
+
+</body>
+</html>
